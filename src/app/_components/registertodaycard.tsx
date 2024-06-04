@@ -10,7 +10,7 @@ import {
 
 function RegisterTodayCard() {
   return (
-    <Card>
+    <Card className="bg-transparent">
       <CardHeader>
         <CardTitle>Card Title</CardTitle>
         <CardDescription>Card Description</CardDescription>
