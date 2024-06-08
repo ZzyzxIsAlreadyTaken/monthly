@@ -1,10 +1,11 @@
 import { relations, sql } from "drizzle-orm";
 import {
   index,
-  int,
+  integer,
   primaryKey,
   sqliteTableCreator,
   text,
+  foreignKey,
 } from "drizzle-orm/sqlite-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
@@ -16,30 +17,41 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = sqliteTableCreator((name) => `monthly_${name}`);
 
-export const posts = createTable(
-  "post",
-  {
-    id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-    name: text("name", { length: 256 }),
-    createdById: text("createdById", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    createdAt: int("created_at", { mode: "timestamp" })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: int("updatedAt", { mode: "timestamp" }),
-  },
-  (example) => ({
-    createdByIdIdx: index("createdById_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  })
-);
+export const habits = createTable("Habit", {
+  HabitId: integer("HabitId", { mode: "number" }).primaryKey({
+    autoIncrement: true,
+  }),
+  UserId: integer("UserId", { mode: "number" })
+    .references(() => users.id)
+    .notNull(),
+  HabitName: text("HabitName").notNull(),
+  Description: text("Description"),
+  HabitType: text("HabitType").notNull(),
+  Duration: integer("Duration"), // Duration in seconds for timed habits
+  Repetitions: integer("Repetitions"), // Number of repetitions per day for repetition habits
+});
+
+export const habitlogs = createTable("HabitLog", {
+  LogId: integer("LogId", { mode: "number" }).primaryKey({
+    autoIncrement: true,
+  }),
+  HabitId: integer("HabitId")
+    .references(() => habits.HabitId)
+    .notNull(),
+  UserId: integer("UserId", { mode: "number" })
+    .references(() => users.id)
+    .notNull(),
+  Date: integer("Date", { mode: "timestamp" }).notNull(),
+  Duration: integer("Duration"), // Duration in minutes for timed habits
+  Repetitions: integer("Repetitions"), // Number of repetitions completed for repetition habits
+  Status: integer("Status", { mode: "boolean" }).notNull(),
+});
 
 export const users = createTable("user", {
   id: text("id", { length: 255 }).notNull().primaryKey(),
   name: text("name", { length: 255 }),
   email: text("email", { length: 255 }).notNull(),
-  emailVerified: int("emailVerified", {
+  emailVerified: integer("emailVerified", {
     mode: "timestamp",
   }).default(sql`CURRENT_TIMESTAMP`),
   image: text("image", { length: 255 }),
@@ -62,7 +74,7 @@ export const accounts = createTable(
     providerAccountId: text("providerAccountId", { length: 255 }).notNull(),
     refresh_token: text("refresh_token"),
     access_token: text("access_token"),
-    expires_at: int("expires_at"),
+    expires_at: integer("expires_at"),
     token_type: text("token_type", { length: 255 }),
     scope: text("scope", { length: 255 }),
     id_token: text("id_token"),
@@ -73,7 +85,7 @@ export const accounts = createTable(
       columns: [account.provider, account.providerAccountId],
     }),
     userIdIdx: index("account_userId_idx").on(account.userId),
-  })
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -87,11 +99,11 @@ export const sessions = createTable(
     userId: text("userId", { length: 255 })
       .notNull()
       .references(() => users.id),
-    expires: int("expires", { mode: "timestamp" }).notNull(),
+    expires: integer("expires", { mode: "timestamp" }).notNull(),
   },
   (session) => ({
     userIdIdx: index("session_userId_idx").on(session.userId),
-  })
+  }),
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -103,9 +115,9 @@ export const verificationTokens = createTable(
   {
     identifier: text("identifier", { length: 255 }).notNull(),
     token: text("token", { length: 255 }).notNull(),
-    expires: int("expires", { mode: "timestamp" }).notNull(),
+    expires: integer("expires", { mode: "timestamp" }).notNull(),
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  })
+  }),
 );
