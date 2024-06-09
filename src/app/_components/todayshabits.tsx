@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Checkbox } from "~/components/ui/checkbox";
+import { getTodaysHabits } from "~/server/queries";
 
 interface Habit {
   id: number;
