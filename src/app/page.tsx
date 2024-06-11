@@ -9,19 +9,21 @@ import {
   getTodaysHabits,
   getUnsortedHabits,
 } from "~/server/queries";
+import { UserDisplayName } from "./_components/userName";
 
 // const usersHabits = await getTodaysHabits(1); //
 const allHabits = await getHabits();
 const unsortedHabits = await getUnsortedHabits();
 
-export default function HomePage() {
+export default async function HomePage() {
   // console.log(usersHabits);
   console.log(allHabits);
   console.log(unsortedHabits);
   return (
-    <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#7b91a6] to-[#78c59f] text-white">
+    // <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#7b91a6] to-[#78c59f] text-white">
+    <main className="flex min-h-screen flex-col items-center bg-zinc-400 text-white">
       <h1 className="mt-6 text-4xl font-bold">
-        Monthly Training Habits Dashboard
+        Monthly Dashboard for <UserDisplayName />
       </h1>
       {unsortedHabits.map((habit) => (
         <div key={habit.HabitId}>
