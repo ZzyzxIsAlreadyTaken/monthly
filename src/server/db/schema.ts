@@ -48,7 +48,13 @@ export const habitlogs = createTable("HabitLog", {
 });
 
 export const users = createTable("user", {
-  id: text("id", { length: 255 }).notNull().primaryKey(),
+  id: text("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  // id: integer("id", { mode: "number" })
+  //   .notNull()
+  //   .primaryKey({ autoIncrement: true }),
   name: text("name", { length: 255 }),
   email: text("email", { length: 255 }).notNull(),
   emailVerified: integer("emailVerified", {
