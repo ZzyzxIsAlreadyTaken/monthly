@@ -10,6 +10,7 @@ import {
   getUnsortedHabits,
 } from "~/server/queries";
 import { UserDisplayName } from "./_components/username";
+import CreateHabit from "./_components/newhabit";
 
 // const usersHabits = await getTodaysHabits(1); //
 const allHabits = await getHabits();
@@ -34,6 +35,7 @@ export default async function HomePage() {
         <RegisterTodayCard />
         <TodaysHabits />
         <HabitCalendar />
+        <CreateHabit />
         {/* <HabitPieDiagram /> */}
       </div>
     </main>
