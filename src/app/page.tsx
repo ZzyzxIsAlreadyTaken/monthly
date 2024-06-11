@@ -9,7 +9,7 @@ import {
   getTodaysHabits,
   getUnsortedHabits,
 } from "~/server/queries";
-import { UserDisplayName } from "./_components/userName";
+import { UserDisplayName } from "./_components/username";
 
 // const usersHabits = await getTodaysHabits(1); //
 const allHabits = await getHabits();

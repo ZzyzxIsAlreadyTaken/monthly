@@ -1,4 +1,4 @@
-import { FileInput, SmilePlus } from "lucide-react";
+import { SmilePlus } from "lucide-react";
 import React from "react";
 import {
   Card,
@@ -13,8 +13,8 @@ function RegisterTodayCard() {
   return (
     <Card className="bg-transparent">
       <CardHeader>
-        <CardTitle>Add new habit</CardTitle>
-        <CardDescription>Add new habit</CardDescription>
+        <CardTitle>I dag</CardTitle>
+        <CardDescription>Legg til dagens økt</CardDescription>
       </CardHeader>
       <CardContent>
         <SmilePlus></SmilePlus>
