@@ -59,10 +59,10 @@ function Habit({ Habit }: { Habit: Habit }) {
 
 function TodaysHabits() {
   return (
-    <Card className="min-w-60 bg-opacity-50">
+    <Card className="min-w-60 bg-opacity-30">
       <CardHeader>
-        <CardTitle className="text-4xl">Habits</CardTitle>
-        <CardDescription>Todays habits</CardDescription>
+        <CardTitle className="text-4xl text-white">Dagens økter</CardTitle>
+        <CardDescription className="text-white">Dagens økter</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-4">
