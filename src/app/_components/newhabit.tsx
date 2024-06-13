@@ -32,6 +32,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { useSession } from "next-auth/react";
 
 const formSchema = z.object({
   habit: z.string().min(2, {
@@ -101,6 +102,8 @@ function NewHabitForm() {
 }
 
 function CreateHabit() {
+  const { data: session, status } = useSession();
+
   return (
     <Card className="bg-transparent">
       <CardHeader>
@@ -112,15 +115,26 @@ function CreateHabit() {
           <DialogTrigger>
             <BadgePlus size={128} fill="white" className="flex-1" />
           </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Registrer økt</DialogTitle>
-              <DialogDescription>
-                Fyll ut skjemaet for å legge til en ny økt.
-              </DialogDescription>
-            </DialogHeader>
-            <NewHabitForm />
-          </DialogContent>
+          {status === "authenticated" ? (
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Registrer økt</DialogTitle>
+                <DialogDescription>
+                  Fyll ut skjemaet for å legge til en ny økt.
+                </DialogDescription>
+              </DialogHeader>
+              <NewHabitForm />
+            </DialogContent>
+          ) : (
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Du er ikke innlogget</DialogTitle>
+                <DialogDescription>
+                  Du må være innlogget for å legge til en ny økt.
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          )}
         </Dialog>
       </CardContent>
       <CardFooter></CardFooter>
