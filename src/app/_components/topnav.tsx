@@ -12,7 +12,7 @@ function AuthButton() {
     return (
       <button
         onClick={() => signOut()}
-        className="rounded bg-red-500 px-4 py-2 font-semibold text-white hover:bg-red-600"
+        className="rounded bg-slate-600 px-4 py-2 font-semibold text-white hover:bg-slate-800"
       >
         Logg ut
       </button>
@@ -53,10 +53,12 @@ function TopNav() {
     <nav className="flex w-full items-center justify-between border-b bg-slate-200 p-4">
       <img src="/logo.png" alt="logo" className="h-12" />
       <span className="text-2xl font-semibold"></span>
-      <div className="flex items-center gap-2 font-semibold">
-        <AuthButton />
-        <UserDisplayName />
+      <div className="flex items-center gap-3 font-semibold">
         <UserImage />
+        <UserDisplayName />
+        <div className="ml-4">
+          <AuthButton />
+        </div>
       </div>
     </nav>
   );
