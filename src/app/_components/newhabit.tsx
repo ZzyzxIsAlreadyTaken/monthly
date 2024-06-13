@@ -37,14 +37,18 @@ const formSchema = z.object({
   habit: z.string().min(2, {
     message: "økttittel må være minst 2 tegn langt",
   }),
+  habitDescription: z.string().min(2, {
+    message: "Øktbeskrivelse må være minst 2 tegn langt",
+  }),
 });
 
-function ProfileForm() {
+function NewHabitForm() {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       habit: "",
+      habitDescription: "",
     },
   });
 
@@ -69,6 +73,22 @@ function ProfileForm() {
               </FormControl>
               <FormDescription>
                 Eksempel på økttittel: Knebøy 25kg 5x5
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="habitDescription"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Øktbeskrivelse</FormLabel>
+              <FormControl>
+                <Input placeholder="bla bla bla ukeblad....." {...field} />
+              </FormControl>
+              <FormDescription>
+                Blblabla husk å drikke vann og spise sunt
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -99,7 +119,7 @@ function CreateHabit() {
                 Fyll ut skjemaet for å legge til en ny økt.
               </DialogDescription>
             </DialogHeader>
-            <ProfileForm />
+            <NewHabitForm />
           </DialogContent>
         </Dialog>
       </CardContent>
